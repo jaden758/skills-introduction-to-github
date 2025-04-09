@@ -1,0 +1,61 @@
+import turtle
+import random
+
+# 화면 설정
+wn = turtle.Screen()
+wn.bgcolor("white")
+wn.title("스마트 RC카 시뮬레이션")
+
+# RC카 설정
+car = turtle.Turtle()
+car.shape("turtle")
+car.color("blue")
+car.penup()
+
+# 장애물 설정 1
+obstacle = turtle.Turtle()
+obstacle.shape("square")
+obstacle.color("red")
+obstacle.penup()
+obstacle.goto(random.randint(-100, 100), random.randint(-100, 100))
+
+# 장애물 설정 2
+obstacle = turtle.Turtle()
+obstacle.shape("square")
+obstacle.color("green")
+obstacle.penup()
+obstacle.goto(random.randint(-100, 100), random.randint(-100, 100))
+
+# 장애물 설정 3
+obstacle = turtle.Turtle()
+obstacle.shape("square")
+obstacle.color("blue")
+obstacle.penup()
+obstacle.goto(random.randint(-100, 100), random.randint(-100, 100))
+
+# 이동 함수
+def move_forward():
+    car.forward(100)
+
+def move_backward():
+    car.backward(100)
+
+def turn_left():
+    car.left(90)
+
+def turn_right():
+    car.right(90)
+
+# 장애물 감지 (거리 기반)
+def detect_obstacle():
+    distance = car.distance(obstacle)
+    return distance < 50  # 50px 이내이면 장애물로 판단
+
+# 메인 루프
+while True:
+    if detect_obstacle():
+        move_backward()
+        wn.ontimer(turn_left if random.random() < 0.5 else turn_right, 5000)
+    else:
+        move_forward()
+    wn.update()
